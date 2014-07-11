@@ -17,9 +17,9 @@ class Ensemble_Learning:
     # testing data with correct words and predicted words aligned
     def verbose_test(self):
         # Print the original code
-        print "True:"
+        print "Ground Truth:"
         print ','.join([x for x in self.test_target_mat])
-        print "Predicted:"
+        print "Predictions:"
         prediction_result = []
         for each_model in self.trained_model_list:
             print ','.join([x for x in each_model.predict(self.test_feat_mat)])

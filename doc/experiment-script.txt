@@ -1,12 +1,11 @@
 1. Data conversion: 
+$python data_conversion.py
 
-
-2. Load data to motif detection
+2. Label data in json format
+$python extract_data.py
 
 3. Extract motifs as feature data for each operation
 ## Since motif detection is not accurate enough for this scenario, we would like to manually 
-found and label the data...
-
-4. Label data in json format
 
 5. Play data with ensemble learning process
+$python workflow.py
