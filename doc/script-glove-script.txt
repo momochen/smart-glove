@@ -1,0 +1,18 @@
+cd /tmp
+script
+
+DEVICE=/dev/tty.usbmodem1411
+screen -S arduino $DEVICE 115200
+# exit screen with C-a k, enter 'y' at the prompt
+
+kill `ps | grep script | grep "[0-9] script$" | sed 's/^[^0-9]*//' | sed 's/ .*//'`
+
+# edit typescript output to remove irregular lines
+vim /tmp/typescript && cat /tmp/typescript | sed 's/^[^,]*,//' | sed 's/[^0-9]*$//' | grep "," | grep -v ".*,.*,.*," > /tmp/hand.csv && rm /tmp/typescript
+
+
+vim /tmp/typescript && cat /tmp/typescript | sed 's/^[^,]*,//' | sed 's/[^0-9]*$//' | grep "," | grep -v ".*,.*,.*," > /tmp/hand.csv
+
+
+
+

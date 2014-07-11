@@ -1,0 +1,12 @@
+1. Data conversion: 
+
+
+2. Load data to motif detection
+
+3. Extract motifs as feature data for each operation
+## Since motif detection is not accurate enough for this scenario, we would like to manually 
+found and label the data...
+
+4. Label data in json format
+
+5. Play data with ensemble learning process
