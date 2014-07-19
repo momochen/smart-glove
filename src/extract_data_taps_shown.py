@@ -144,7 +144,6 @@ class DataAdaptor:
         else:
             feature_list = self.get_data_samples(self._csv_data,self._filename,self._range_list)
             path = self._csv_file_name.split("/")
-            print "here"
             sample_data_filename = "/".join(path[0:(len(path)-5)])+"/data/training-data/sample-"+self._filename.split(".csv")[0]+".json"
 
             f = open(sample_data_filename,"w")
