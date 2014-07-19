@@ -17,9 +17,9 @@ class Ensemble_Learning:
     # testing data with correct words and predicted words aligned
     def verbose_test(self):
         # Print the original code
-        print "Ground Truth:"
+        print "True:"
         print ','.join([x for x in self.test_target_mat])
-        print "Predictions:"
+        print "Predicted:"
         prediction_result = []
         for each_model in self.trained_model_list:
             print ','.join([x for x in each_model.predict(self.test_feat_mat)])
@@ -50,7 +50,6 @@ class Ensemble_Learning:
         #target_mat = np.array([ord(x) for x in target_mat])
 
         target_mat = np.array([x for x in target_mat])
-
         rf = RandomForestClassifier(n_estimators=100)
         trained_rf = rf.fit(feature_mat,target_mat)
         self.trained_model_list.append(trained_rf)

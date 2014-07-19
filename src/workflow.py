@@ -51,7 +51,7 @@ def main():
     train_target_mat = numpy.array(train_target_mat)
     el = Ensemble_Learning(train_data_mat,train_target_mat,test_data_mat,test_target_mat)
     el.generate_scores()
-    el.verbose_test()
+    #el.verbose_test()
 
 if __name__=='__main__':
     main()

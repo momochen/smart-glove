@@ -1,0 +1,19 @@
+July 19th, 2014
+Done:
+1. The machine learning model recoginized the tap with an accuracy of 85% percent
+    After we have collected 50 samples of data for each movement, the accuracy increased dramatically
+
+Todo: 
+1. Using current model to test the movement data from files, see if it really works in real scenario(real world testing)
+2. Figure out a way to stream the sensor data to a proram(either local program or web service), such that further testing can be done based on this
+3. Deploy the current Java-based language model to either
+    a. A web service 
+    b. A local python program using Jython(since most of our code and model are in python, and its agility is appreciated)
+    Which is better? Or any other approaches? 
+4. Implement a web service to generate meaningful possible character sequences as well as word sequences that can make up meaningful sentences
+
+Discussion: 
+1. We need to think about the demo now. The backend should be a web service, therefore we can load powerful computing capabilities. What about the frontend?
+
+
+

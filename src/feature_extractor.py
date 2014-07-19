@@ -36,7 +36,7 @@ class Feature_Target_Extractor:
         return (self.feat_list,self.target)
 
     def feat_f_fft(self,ts):
-        return rfft(ts)
+        return rfft(ts,n=200)
 
     def feat_t_mean(self,ts):
         return numpy.mean(ts)
