@@ -5,7 +5,7 @@ import csv
 def main():
     path = os.getcwd()
     parent_path = os.sep.join(path.split(os.sep)[:-1])
-    data_dir = parent_path+"/data/raw-data/2014-07-18-momo"
+    data_dir = parent_path+"/data/raw-data/20140827momo"
     all_csv = [each for each in os.listdir(data_dir) if each.endswith(".csv")]
 
     if not os.path.exists(data_dir+"/cvt"):
@@ -32,22 +32,32 @@ def convert_file(data_dir,csv_file):
         try:
             #x,y,z = convert_data(tuple(float(x) for x in line.split(",")))
             line_list = line.split(",")
-            if len(line_list)==4:
+            if len(line_list)==17:
                 # Raw data
-                time_stamp,x,y,z = tuple(line_list)
-                csv_data_output.write(str(x)+","+str(y)+","+str(z))
+                # For new data format
+                uid,time_stamp,x,y,z,accel,ax,ay,az,gyro,gx,gy,gz,mag,mx,my,mz = tuple(line_list)
+                #time_stamp,x,y,z = tuple(line_list)
+                #csv_data_output.write(str(x)+","+str(y)+","+str(z)+","+str(mx)+","+str(my)+","+str(mz))
+                csv_data_output.write(str(x)+","+str(y)+","+str(z)+"\r\n")
                 time_stamp_list.append(str(time_stamp))
-            elif len(line_list)==7:
+            elif len(line_list)==8:
                 # Detected taps
-                time_start,time_stop,sth,peak_x,peak_y,peak_z,tap_type = tuple(line_list)
-                start_index = time_stamp_list.index(time_start)
-                end_index = time_stamp_list.index(time_stop)
+                # For new data format
+                uid,time_start,time_stop,sth,peak_x,peak_y,peak_z,tap_type = tuple(line_list)
+                #time_start,time_stop,sth,peak_x,peak_y,peak_z,tap_type = tuple(line_list)
+                '''
+                if int(time_start)<0
+                    time_start = int(time_start)+2**32
+                if int(time_stop)<0:
+                    time_stop = int(time_stop)+2**32
+                '''
+                start_index = time_stamp_list.index(str(time_start))
+                end_index = time_stamp_list.index(str(time_stop))
                 csv_data_output_taps.write(str(start_index)+","+str(end_index)+","+tap_type)
             else:
                 # Just ignore those...
                 pass
         except:
-            print csv_file
             print line
     csv_data_input.close()
     csv_data_output.close()

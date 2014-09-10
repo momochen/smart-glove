@@ -12,12 +12,13 @@ def main():
     # Creating a dict to store the location of all sample data
     path = os.getcwd()
     parent_path = os.sep.join(path.split(os.sep)[:-1])
-    data_dir = parent_path+"/data/raw-data/2014-07-18-momo/cvt/"
-    taps_dir = parent_path+"/data/raw-data/2014-07-18-momo/cvt/taps/"
+    data_dir = parent_path+"/data/raw-data/20140827momo/cvt/"
+    taps_dir = parent_path+"/data/raw-data/20140827momo/cvt/taps/"
     all_data_csv = [each for each in os.listdir(data_dir) if each.endswith(".csv")]
     all_taps_csv = [each for each in os.listdir(taps_dir) if each.endswith(".csv")]
 
     for i in range(0,len(all_data_csv)):
+        print "file:",all_data_csv[i]
         da = DataAdaptor(data_dir+all_data_csv[i],taps_dir+all_taps_csv[i])
         da.set_range_list_from_taps()
         da.write_samples_to_file()
@@ -97,7 +98,10 @@ class DataAdaptor:
             if tap_type.startswith("tap-1"):
                 if detected_tap1==False:
                     detected_tap1 = True
-                action_start = int(start)
+                #action_start = int(start)
+                # Because in real time testing, the past time points can't be retrieved, 
+                # therefore we just count the points in between taps
+                action_start = int(end)+1
             else:
                 if detected_tap1==True:
                     action_end = int(end)
@@ -144,8 +148,10 @@ class DataAdaptor:
         else:
             feature_list = self.get_data_samples(self._csv_data,self._filename,self._range_list)
             path = self._csv_file_name.split("/")
-            sample_data_filename = "/".join(path[0:(len(path)-5)])+"/data/training-data/sample-"+self._filename.split(".csv")[0]+".json"
-
+            training_data_dir = "/".join(path[0:(len(path)-5)])+"/data/training-data/"
+            if not os.path.exists(training_data_dir):
+                os.mkdir(training_data_dir)
+            sample_data_filename = training_data_dir+"sample-"+self._filename.split(".csv")[0]+".json"
             f = open(sample_data_filename,"w")
             f.write(json.dumps(feature_list))
             f.close()
@@ -155,17 +161,23 @@ class DataAdaptor:
 
     def get_data_samples(self,csv_data,label,range_list):
         """
-            csv_data: csv data for eah dimension
+            csv_data: csv data for each dimension
             label: label for the motifs
             pos_list:[(start_1,end_1),(start_2,end_2)...]
         """
 
-        x,y,z = list(),list(),list()
+        x,y,z,mx,my,mz = list(),list(),list(),list(),list(),list()
         for row in csv_data:
             row_data = row.split(",")
             x.append(float(row_data[0]))
             y.append(float(row_data[1]))
             z.append(float(row_data[2]))
+            #mx.append(float(row_data[3]))
+            #my.append(float(row_data[4]))
+            #mz.append(float(row_data[5]))
+
+
+        #ts = {"accX":x,"accY":y,"accZ":z,"magX":mx,"magY":my,"magZ":mz}
         ts = {"accX":x,"accY":y,"accZ":z}
 
         mtf = Motif(ts)
@@ -250,6 +262,9 @@ class DataAdaptor:
                 "accX":
                 "accY":
                 "accZ":
+                "magX":
+                "magY":
+                "magZ":
                 "key":
             }
         ]
